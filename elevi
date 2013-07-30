@@ -1,0 +1,124 @@
+#include "stdafx.h"
+
+#include <cstdio>
+#include <conio.h>
+#include <cstdlib>
+#include <string.h>
+
+#pragma warning( disable : 4996 )
+
+
+typedef struct elev
+{
+  char nume[15];
+	char prenume[15];
+	float medie;
+};
+
+void write_data(int nr_elevi, elev elv[50],char nf[])
+{
+	int i;	
+	FILE *fisier;
+	fisier = fopen(nf, "w+");
+	if(fisier == NULL)
+		{
+			puts("eroare!!-try again");
+		}
+	for(i = 1; i <= nr_elevi; i++)
+	fprintf(fisier, " %d %s, %s, %5.2f \n", i, elv[i].nume, elv[i].prenume, elv[i].medie);
+	fclose(fisier);
+}
+//citesc datele elevului
+
+void read_data (int nr_elevi, elev elv[50])
+{
+
+	int i;
+	for(i = 1; i <= nr_elevi; i++)
+	{
+		printf("nume elev:");
+	    scanf("%s", elv[i].nume);
+	    printf("prenume elev:");
+	 	scanf("%s", elv[i].prenume);
+		printf("medie elev:");
+		scanf("%f", &elv[i].medie);
+		printf("________________________\n");
+	}
+}
+
+void sortare_elevi_medie (int nr_elevi, elev elv[50])
+{
+	int i, j;
+	elev tmp;
+	for (i = 1; i <= nr_elevi-1; i++)
+		for(j = 1; j <= nr_elevi-i; j++)
+			if(elv[j].medie < elv[j+1].medie)
+			{
+				tmp = elv[j];
+				elv[j] = elv[j+1];
+				elv[j+1] = tmp;
+			}
+}
+
+void sortare_elevi_alfabetica(int nr_elevi, elev elv[50])
+{
+	int i, j;
+	elev tmp;
+	for (i = 1; i <= nr_elevi-1; i++)
+		for(j = 1; j <= nr_elevi-i; j++)
+			if((strcmp(elv[j].nume, elv[j+1].nume) > 0) || 
+				(strcmp(elv[j].nume, elv[j+1].nume) == 0 && strcmp(elv[j].prenume, elv[j+1].prenume) > 0) )
+			{
+				tmp = elv[j];
+				elv[j] = elv[j+1];
+				elv[j+1] = tmp;
+			}
+}
+
+float med_max(int nr_elevi, elev elv[50])
+{
+	int i;
+	float Mmax;
+	Mmax = elv[1].medie;
+	for (i = 2; i <= nr_elevi; i++)
+		if(elv[i].medie > Mmax)
+			Mmax = elv[i].medie;
+	return Mmax;
+
+}
+
+void afisare_elevi_cu_medie_data(int nr_elevi, elev elv[50], float med)
+{
+	int i,c;
+	c = 0;
+	for (i = 1; i <= nr_elevi; i++)
+		if(elv[i].medie == med)
+			{
+				printf("%s\t%s\t%5.2f\t", elv[i].nume, elv[i].prenume, elv[i].medie);
+				c++;
+			}
+
+		if(c == 0) printf("nu exista");
+
+}
+
+
+
+
+int main (void)
+{   int nr_elevi;//nr de elevi
+    elev elv[50]; 
+	float Mm;
+    printf("aintroduceti nr de elevi:");
+    scanf("%d", &nr_elevi);
+	read_data(nr_elevi, elv);
+	write_data(nr_elevi,elv,"c://output//date_elevi.txt");
+	sortare_elevi_medie(nr_elevi, elv);
+	write_data(nr_elevi,elv,"c://output//date_elevi_sortate_dupa_medie.txt");
+	sortare_elevi_alfabetica(nr_elevi, elv);
+	write_data(nr_elevi,elv,"c://output//date_elevi_sortate_alfabetic.txt");
+	Mm = med_max(nr_elevi, elv);
+	afisare_elevi_cu_medie_data(nr_elevi, elv, Mm);
+	_getch();
+}
+
