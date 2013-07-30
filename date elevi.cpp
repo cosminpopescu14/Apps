@@ -24,7 +24,7 @@ void read_data (int nr_elevi, elev elv[50])
 	fisier = fopen("C://output//date elevi.txt", "w+");
 	if(fisier == NULL)
 		{
-			puts("eroare!!-try again");
+			puts("eroare!!");
 		}
 	int i;
 	for(i = 1; i <= nr_elevi; i++)
