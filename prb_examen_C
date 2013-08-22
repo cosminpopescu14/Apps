@@ -1,0 +1,97 @@
+
+
+#include "stdafx.h"
+#pragma warning(disable : 4996)
+#pragma warning(disable : 4091)
+
+typedef struct info{
+	int nr;
+	float v[10], med;
+};
+
+int nr;
+info x[20];
+
+void citire_fisier(int *nr, info x[], char nf[])
+{
+	FILE *fisier;
+	fisier = fopen(nf, "r");
+	if(fisier == NULL)
+	{
+		puts("Open error!");
+		return;
+	}
+	fscanf(fisier, "%d", nr);
+		for (int i = 1; i <= *nr; i++)
+		{
+			fscanf(fisier, "%d", &x[i].nr);
+			for(int j = 1; j<= x[i].nr; j++)
+			{
+				fscanf(fisier, "%f", &x[i].v[j]);
+			}
+		}
+}
+
+void medie(info *x)
+{
+	float s = 0;
+	for(int i = 1; i<= x->nr; i++)
+	{
+		s+= x->v[i];
+	}
+	x->med = s/x->nr;
+}
+
+void calcul(int nr, info x[])
+{
+	for (int i = 1; i <= nr; i++)
+	{
+		medie(&x[i]);
+	}
+}
+
+
+void sortare (int nr, info x[])
+{
+	int i, j;
+	info tmp;
+	for(i = 1; i <=nr-1; i++)
+	{
+		for(j = 1; j <= nr-i; j++)
+		{
+			if(x[j].med > x[j+1].med)
+			{
+				tmp = x[j];
+				x[j] = x[j+1];
+				x[j+1] = tmp;
+			}
+		}
+	}
+}
+
+void afisare (int nr, info x[])
+{
+	int i;
+	for (i = 1; i <= nr; i++)
+	{
+		printf("%f / %d / ", x[i].med, x[i].nr);
+		for(int j = 1; j <= x[i].nr; j++)
+		{
+			printf("%f ", x[i].v[j]);	
+		}
+		printf("\n");
+	}
+}
+
+int main ()
+{
+	citire_fisier(&nr, x, "c:\\surse\\date.in");
+	calcul(nr, x);
+	sortare(nr, x);
+	afisare(nr, x);
+	fflush(stdin);
+	getchar();
+	return 0;
+}
+
+
