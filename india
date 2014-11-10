@@ -7,3 +7,6 @@
       T|S~Pn SPm SOn TNn ULo0ULo#ULo-W\
       Hq!WFs XDt!"[b+++21]; )
        for(; a-- >64 ; ) putchar ( ++c=='Z' ? c = c/ 9:33^b&1); return 0; }
+
+
+//obfuscated code. when compiled it shows a map of India !
