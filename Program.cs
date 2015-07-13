@@ -11,24 +11,27 @@ namespace textToSha1
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Scrie ceva");
+            Console.WriteLine("Write something...");
             string text = Console.ReadLine();
             var result = getSha1(text);
 
             Console.WriteLine("sha1 output: {0 : x2} ", result);
-            Console.ReadLine();
+            Console.ReadLine();    
         }
 
-        public  static string getSha1(string text)
+        //method getSha1 receive a text as a parameter and compute sha1 function fot received text
+        //exemple : cosmin - ff89d6092ac5f4531ddd8242921f086fbf421ed1
+        public static string getSha1(string text)
         {
-            byte[] data = ASCIIEncoding.ASCII.GetBytes(text);//transformam toate caracterele textului in bytes necesar pt calcularea sha1
-            byte [] hash_data;
+            byte [] data = ASCIIEncoding.ASCII.GetBytes(text);//encode all the  chars from my text into bytes
+            byte [] hash_data = null; //the result of function
 
             SHA1 sha = new SHA1CryptoServiceProvider();
-            hash_data = sha.ComputeHash(data);
-            StringBuilder strBldr = new StringBuilder();//clasa string builder
+            hash_data = sha.ComputeHash(data);//computing SHA1 function
 
-            foreach (var b in hash_data) // iteram prin hash_data
+            StringBuilder strBldr = new StringBuilder();
+
+            foreach (var b in hash_data) 
                       strBldr.Append(b.ToString("x2")); 
                 
             return strBldr.ToString();
