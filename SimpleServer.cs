@@ -7,11 +7,12 @@ using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 
+
 namespace TrialNetProgramming1
 {
     class Server
     {
-        public const int port = 80;
+        public const int port = 8001;
         static void Main(/*string[] args*/)
         {
             try
@@ -31,19 +32,24 @@ namespace TrialNetProgramming1
                 byte[] data = new byte[1000];
 
                 int k = socket.Receive(data);
-                //Console.WriteLine("Received");
+
                 for (int i = 0; i < k; i++)
-                
                 {
-                    
+                    // Console.WriteLine(Convert.ToChar(data[i]));
+                    byte [] dataToHash = ASCIIEncoding.ASCII.GetBytes(data[i].ToString());
                     byte[] hashData = null;
 
-                    SHA1 sha = new SHA1CryptoServiceProvider();
+                    SHA1 sha1 = new SHA1CryptoServiceProvider();
+                    hashData = sha1.ComputeHash(dataToHash);
                     
-                }    
-                    
+                   StringBuilder sb = new StringBuilder();
 
-               
+                    foreach (var item in hashData)
+                        sb.Append(item.ToString("x2"));
+                        byte[] dd = ASCIIEncoding.ASCII.GetBytes(sb.ToString());
+                        socket.Send(dd);  
+                    
+                }
                 ASCIIEncoding asen = new ASCIIEncoding();
                 socket.Send(asen.GetBytes("the string was received from srver : "));
                 socket.Send(data);
@@ -61,23 +67,3 @@ namespace TrialNetProgramming1
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-  static TcpListener listener;
-  listener = new TcpListener(80);
-            listener.Start();
-            Console.WriteLine("listening...");
-            Console.ReadLine();
-
-*/
