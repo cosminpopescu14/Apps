@@ -16,7 +16,7 @@ namespace TrialNetProgramming1
         {
             try
             {
-                IPAddress address = IPAddress.Parse("192.168.0.100");
+                IPAddress address = IPAddress.Parse("ip address");
 
                 TcpListener listener = new TcpListener(address, port);
                 listener.Start();
