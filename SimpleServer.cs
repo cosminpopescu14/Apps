@@ -27,7 +27,7 @@ namespace TrialNetProgramming1
                 Console.WriteLine("waiting for a connection...");
 
                 Socket socket = listener.AcceptSocket();
-                Console.WriteLine("connectio accepted from " + socket.RemoteEndPoint);
+                Console.WriteLine("connection accepted from " + socket.RemoteEndPoint);
 
                 byte[] data = new byte[1000];
 
@@ -51,7 +51,7 @@ namespace TrialNetProgramming1
                     
                 }
                 ASCIIEncoding asen = new ASCIIEncoding();
-                socket.Send(asen.GetBytes("the string was received from srver : "));
+                socket.Send(asen.GetBytes("the string was received from server : "));
                 socket.Send(data);
                 Console.WriteLine("Sent ack!\n");
                 
