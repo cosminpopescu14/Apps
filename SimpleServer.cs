@@ -12,27 +12,31 @@ namespace TrialNetProgramming1
 {
     class Server
     {
-        public const int port = 8001;
+        public const int port = 100;//port used
         static void Main(/*string[] args*/)
         {
             try
             {
-                IPAddress address = IPAddress.Parse("ip address");
+                IPAddress address = IPAddress.Parse("192.168.0.100");//server ip
 
+                /*listen for incoming connection - ip and port*/
                 TcpListener listener = new TcpListener(address, port);
                 listener.Start();
 
-                Console.WriteLine("listening to port ", port);
-                Console.WriteLine("local end point is :" + listener.LocalEndpoint);
-                Console.WriteLine("waiting for a connection...");
+                /*feedback to user*/
+                Console.WriteLine("Listening to port ", port);
+                Console.WriteLine("Local end point is :" + listener.LocalEndpoint);
+                Console.WriteLine("Waiting for a connection...");
 
+                /*accept request from socket*/
                 Socket socket = listener.AcceptSocket();
-                Console.WriteLine("connection accepted from " + socket.RemoteEndPoint);
+                Console.WriteLine("Connection accepted from " + socket.RemoteEndPoint);
 
-                byte[] data = new byte[1000];
-
+                //space  for  data
+                byte[] data = new byte[8012];
                 int k = socket.Receive(data);
 
+                //working with received data
                 for (int i = 0; i < k; i++)
                 {
                     // Console.WriteLine(Convert.ToChar(data[i]));
@@ -46,15 +50,17 @@ namespace TrialNetProgramming1
 
                     foreach (var item in hashData)
                         sb.Append(item.ToString("x2"));
-                        byte[] dd = ASCIIEncoding.ASCII.GetBytes(sb.ToString());
-                        socket.Send(dd);  
-                    
+                        byte[] hashedData = ASCIIEncoding.ASCII.GetBytes(sb.ToString());
+                        socket.Send(hashedData);//sending processed data to client  
                 }
-                ASCIIEncoding asen = new ASCIIEncoding();
-                socket.Send(asen.GetBytes("the string was received from server : "));
-                socket.Send(data);
-                Console.WriteLine("Sent ack!\n");
                 
+                //send ack 
+                ASCIIEncoding asen = new ASCIIEncoding();
+                socket.Send(asen.GetBytes("Server received : "));
+                Console.WriteLine("Sent ack!\n");
+                socket.Send(data);
+
+                /*free resources*/
                 socket.Close();
                 listener.Stop();
                 Console.ReadLine();
