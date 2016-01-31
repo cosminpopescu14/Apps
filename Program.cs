@@ -19,7 +19,7 @@ namespace textToSha1
             Console.ReadLine();    
         }
 
-        //method getSha1 receive a text as a parameter and compute sha1 function fot received text
+        //method getSha1 receive a text as a parameter and compute sha1 function for received text
         //exemple : cosmin - ff89d6092ac5f4531ddd8242921f086fbf421ed1
         public static string getSha1(string text)
         {
